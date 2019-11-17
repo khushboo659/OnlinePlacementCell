@@ -1,7 +1,6 @@
 package com.example.opc.ui.share;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -16,10 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.opc.MainActivity;
 import com.example.opc.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -63,7 +60,7 @@ public class ShareFragment extends Fragment {
         sendbtn= (Button) v.findViewById(R.id.btn_send);
         input_msg=(EditText) v.findViewById(R.id.msg_input);
 
-        chat_conv=(TextView) v.findViewById(R.id.textView);
+        chat_conv=(TextView) v.findViewById(R.id.navheaderemailAlumni);
         root= FirebaseDatabase.getInstance().getReference().child("messages");
         sendbtn.setOnClickListener(new View.OnClickListener() {
             @Override

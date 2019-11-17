@@ -58,7 +58,7 @@ public class Alumni_Discussion_Fragment extends Fragment {
         sendbtn= (Button) v.findViewById(R.id.btn_send);
         input_msg=(EditText) v.findViewById(R.id.msg_input);
 
-        chat_conv=(TextView) v.findViewById(R.id.textView);
+        chat_conv=(TextView) v.findViewById(R.id.navheaderemailAlumni);
         root= FirebaseDatabase.getInstance().getReference().child("experience");
         sendbtn.setOnClickListener(new View.OnClickListener() {
             @Override
