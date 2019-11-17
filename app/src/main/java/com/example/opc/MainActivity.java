@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton adminRB,tpoRB,studentRB,alumniRB;
     private Button SignIn;
     private  String myEmail,myPassword;
+    private ProgressDialog dialog;
     private FirebaseAuth mAuth;
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = db.getReference();
@@ -159,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 //                                        Log.d(TAG, "signInWithEmail:failure", task.getException());
                                         Toast.makeText(MainActivity.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
+                                        dialog.setCanceledOnTouchOutside(true);
                                     }
 
                                     // ...
@@ -167,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                     Toast.makeText(MainActivity.this,"Admin Account Doesnt Exist",Toast.LENGTH_SHORT).show();
+                dialog.setCanceledOnTouchOutside(true);
             }
 
             @Override
@@ -198,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
 //                                        Log.d(TAG, "signInWithEmail:failure", task.getException());
                                         Toast.makeText(MainActivity.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
+                                        dialog.setCanceledOnTouchOutside(true);
                                     }
 
                                     // ...
@@ -206,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                     Toast.makeText(MainActivity.this,"Tpo Account Doesn't Exist",Toast.LENGTH_SHORT).show();
+                dialog.setCanceledOnTouchOutside(true);
             }
 
             @Override
@@ -236,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
 //                                        Log.d(TAG, "signInWithEmail:failure", task.getException());
                                         Toast.makeText(MainActivity.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
+                                        dialog.setCanceledOnTouchOutside(true);
                                     }
 
                                     // ...
@@ -244,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                     Toast.makeText(MainActivity.this,"Student Account Doesn't Exist",Toast.LENGTH_SHORT).show();
+                dialog.setCanceledOnTouchOutside(true);
             }
 
             @Override
@@ -272,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
 //                                        Log.d(TAG, "signInWithEmail:failure", task.getException());
                                         Toast.makeText(MainActivity.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
+                                        dialog.setCanceledOnTouchOutside(true);
                                     }
 
                                     // ...
@@ -280,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                     Toast.makeText(MainActivity.this,"Alumni Account Doesn't Exist",Toast.LENGTH_SHORT).show();
+                dialog.setCanceledOnTouchOutside(true);
             }
 
             @Override
@@ -293,6 +303,9 @@ public class MainActivity extends AppCompatActivity {
     public void signIn(View view) {
         myEmail = email.getText().toString().trim();
         myPassword = password.getText().toString().trim();
+        dialog = ProgressDialog.show(MainActivity.this, "",
+                "Loading. Please wait...", true);
+        dialog.setCanceledOnTouchOutside(true);
 
         if (myEmail.length() <= 0 || myPassword.length() <= 0)
             Toast.makeText(MainActivity.this, "please complete all the fields", Toast.LENGTH_SHORT).show();

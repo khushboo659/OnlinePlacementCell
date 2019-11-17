@@ -65,7 +65,7 @@ public class adminActivity1 extends AppCompatActivity implements NavigationView.
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId()){
             case R.id.acc_detail_tpo:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_admin,new addTpo()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_admin,new AddAlumni()).commit();
                 break;
             case R.id.add_student_symbol:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_admin,new AddStudentFrag()).commit();

@@ -7,7 +7,7 @@
         <item
             android:id="@+id/acc_detail_tpo"
             android:icon="@drawable/ic_account_circle_black_24dp"
-            android:title="Account Details" />
+            android:title="add Alumni" />
         <item
             android:id="@+id/add_tpo_symbol"
             android:icon="@drawable/ic_add_tpo"
