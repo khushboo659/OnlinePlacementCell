@@ -3,6 +3,7 @@ package com.example.opc.ui.home;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,13 +89,17 @@ private TextView viewNotif;
     {
         String notif,date,time;
         Iterator i = dataSnapshot.getChildren().iterator();
+        viewNotif.append(Html.fromHtml("<html><body>"));
         while(i.hasNext()){
             date = (String)((DataSnapshot) i.next()).getValue();
             notif = (String)((DataSnapshot) i.next()).getValue();
             time = (String)((DataSnapshot) i.next()).getValue();
+            viewNotif.append(Html.fromHtml("</br><font><small>"+notif+"</small></font><br/><font color=blue><small><small>"+date+"</small></small></font><br/></font><font color=blue><small><small>"+time+"</small></small></font><br/><br/>"));
 
-            viewNotif.append(notif+'\n'+date+'\n'+time+'\n'+'\n');
+            //viewNotif.append(notif+'\n'+date+'\n'+time+'\n'+'\n');
         }
+
+        viewNotif.append(Html.fromHtml("</html></body>"));
 
     }
     public void onStart(){
