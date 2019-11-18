@@ -16,7 +16,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enternew" />
+        app:layout_constraintTop_toBottomOf="@+id/enternew"
+        android:background="@drawable/round_btn"/>
 
     <ListView
         android:id="@+id/listview"
@@ -44,7 +45,8 @@
         app:layout_constraintBottom_toTopOf="@+id/enternew"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listview" />
+        app:layout_constraintTop_toBottomOf="@+id/listview"
+        android:background="@drawable/round_btn"/>
 
     <EditText
         android:id="@+id/enternew"
