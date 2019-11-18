@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:hint="Enter Tpo Name"
+                android:hint="Enter Alumni Name"
                 android:layout_marginVertical="15dp"
                 />
 
