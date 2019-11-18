@@ -42,6 +42,10 @@ public class Alumni_main extends AppCompatActivity implements NavigationView.OnN
         NavigationView navigationView=findViewById(R.id.alumni_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         toggle.syncState();
+//<<<<<<< HEAD
+        getSupportFragmentManager().beginTransaction().replace(R.id.alumni_fragment_container,new fragment_stats()).commit();
+        navigationView.setCheckedItem(R.id.nav_alumni_home);
+
 
         View header = navigationView.getHeaderView(0);
         navEmailDisp = header.findViewById(R.id.navheaderemailAlumni);
@@ -66,12 +70,16 @@ public class Alumni_main extends AppCompatActivity implements NavigationView.OnN
         Log.d("check",Useremail);
         navEmailDisp.setText(Useremail);
 
+
     }
 
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId()){
+            case R.id.nav_alumni_home:
+                getSupportFragmentManager().beginTransaction().replace(R.id.alumni_fragment_container,new fragment_stats()).commit();
+                break;
             case R.id.nav_alumni_discussion:
                 getSupportFragmentManager().beginTransaction().replace(R.id.alumni_fragment_container,new ShareFragment()).commit();
                 break;
