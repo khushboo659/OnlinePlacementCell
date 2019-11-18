@@ -92,7 +92,8 @@
                 android:id="@+id/addAlumniRegister"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="15dp"
-                android:text="Register" />
+                android:text="Register"
+                android:background="@drawable/round_btn"/>
 
 
         </LinearLayout>
