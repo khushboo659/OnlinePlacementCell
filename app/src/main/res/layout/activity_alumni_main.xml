@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
 
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:background="#0A3D62"
             android:id="@+id/alumni_toolbar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
