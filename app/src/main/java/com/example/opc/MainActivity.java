@@ -28,16 +28,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
+//A.Main Activity is a login page.
+
 public class MainActivity extends AppCompatActivity {
+
+    //1.declaring fields according to UI
 
     private EditText email,password;
     private RadioButton adminRB,tpoRB,studentRB,alumniRB;
     private Button SignIn;
     private  String myEmail,myPassword;
     private ProgressDialog dialog;
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase db = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef = db.getReference();
+    private FirebaseAuth mAuth;   //2. Authentication Variable of firebase.
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();  //3.Getting instance of firebase database
+    private DatabaseReference myRef = db.getReference();  //4. getting reference of root node of database.
 //    private DatabaseReference adminrref = myRef.child("admin");
 //    private DatabaseReference tporef = myRef.child("tpo");
 //    private DatabaseReference studentref = myRef.child("student");
@@ -56,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); //5. setting layout as activity main layout in layout directory
+
+        //6.finding all the elements in ui according to their assigned ids
         mAuth = FirebaseAuth.getInstance();
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -65,26 +72,23 @@ public class MainActivity extends AppCompatActivity {
         alumniRB = findViewById(R.id.alumni);
         tpoRB = findViewById(R.id.tpo);
         SignIn = findViewById(R.id.signIn);
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if(currentUser!=null) {
-//            Log.d("user email", currentUser.getEmail());
-//            Intent intent = new Intent(MainActivity.this,student_main.class);
-//            startActivity(intent);
-//        }
-//
-//        else
-//            Log.i("user email","null");
 
+
+        //following method call changes the uI of app according to already signed in User.
         updateUI();
     }
 
+    //to update ui according to type of current user
     private void updateUI() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        //getting currently signed in user from firebase and checking wether it is null or not.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser!=null){
             String myEmail = currentUser.getEmail();
             int index = myEmail.indexOf('@');
             String node = myEmail.substring(0,index);
+
+            //if current user is in admin then opening admin page ui.
             myRef.child("admin").child(node).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -100,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            //if current user is in student then opening student page ui.
             myRef.child("student").child(node).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -114,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+
+            //if current user is in Alumni then opening alumni page ui.
             myRef.child("Alumni").child(node).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -129,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            //if current user is in tpo then opening tpo page ui.
             myRef.child("tpo").child(node).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -150,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
             Log.i("user email","null");
     }
 
+    //following method opens admin page if the entered details are of admin
+    //if not then displays msg to check type
     public void checkAdmin(){
 
         int index = myEmail.indexOf('@');
@@ -190,6 +200,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //following method opens tpo page if the entered details are of tpo
+    //if not then displays msg to check type
     public void checkTpo(){
 
         int index = myEmail.indexOf('@');
@@ -231,6 +243,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    //following method opens student page if the entered details are of student
+    //if not then displays msg to check type
     public void checkStudent(){
 
         int index = myEmail.indexOf('@');
@@ -269,6 +284,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    //following method opens Alumni page if the entered details are of Alumni
+    //if not then displays msg to check type
     public void checkAlumni(){
 
         int index = myEmail.indexOf('@');
@@ -309,17 +327,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+    // This method will get called when sign in button get pressed
+
     public void signIn(View view) {
+        //getting email and password entered by user
+
         myEmail = email.getText().toString().trim();
         myPassword = password.getText().toString().trim();
         dialog = ProgressDialog.show(MainActivity.this, "",
                 "Loading. Please wait...", true);
         dialog.setCanceledOnTouchOutside(true);
 
+        //displaying message to user if any of the field is empty
+
         if (myEmail.length() <= 0 || myPassword.length() <= 0)
             Toast.makeText(MainActivity.this, "please complete all the fields", Toast.LENGTH_SHORT).show();
         else{
-                if(adminRB.isChecked()){
+
+                //changing the activity corresponding to radio button selected.
+                //if not selected then displaying msg to select one.
+            if(adminRB.isChecked()){
                     checkAdmin();
                 }
                 else if(tpoRB.isChecked()){
@@ -335,6 +363,9 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this,"Opt One Of The Choice",Toast.LENGTH_SHORT).show();
             }
     }
+
+
+    //the following method ensures if back button of mobile is pressed then application should get closed.
 
     @Override
     public void onBackPressed() {

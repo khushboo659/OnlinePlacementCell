@@ -20,7 +20,10 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-public class view_company extends AppCompatActivity {
+public class
+
+
+view_company extends AppCompatActivity {
     ListView mycomView;
     DatabaseReference databaseReference;
     List<uploadJAF> jafs;
