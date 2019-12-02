@@ -19,6 +19,11 @@ import com.example.opc.MainActivity;
 import com.example.opc.R;
 import com.google.firebase.auth.FirebaseAuth;
 
+
+/* this java file corresponds to sign out fragment
+    sign out the currently signed in user.
+* */
+
 public class SendFragment extends Fragment {
 
     private SendViewModel sendViewModel;
@@ -34,10 +39,15 @@ public class SendFragment extends Fragment {
 
         return root;
     }
+
+    //this method is always callend first when sign out item(Button) in nav drawer get pressed
     public void onStart(){
         super.onStart();
         FirebaseAuth fAuth = FirebaseAuth.getInstance();
+        //signing out current user
         fAuth.signOut();
+
+        //changing intent to login page
         Intent intent=new Intent(context, MainActivity.class);
         startActivity(intent);
     }

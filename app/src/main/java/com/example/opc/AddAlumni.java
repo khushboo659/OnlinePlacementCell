@@ -24,11 +24,16 @@ import java.util.HashMap;
 
 public class AddAlumni extends Fragment {
 
+    //declaring variables according to elements in ui of add tpo fragment
     private EditText name,email,password,branch,passYear,currentPos,ID;
     private Button register;
+    //declring authentication variable
     private FirebaseAuth mAuth;
+    //getting instance of databse
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    //getting reference of root node of database
     private DatabaseReference rootref = db.getReference();
+    //getting reference of chid of rootref that is 'alumni'
     private DatabaseReference alumniRef =  rootref.child("Alumni");
 
 
@@ -39,6 +44,7 @@ public class AddAlumni extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_add_alumni, container, false);
 
+        //finding the elemrnts in this view corrsponding thier assigned ids
         mAuth = FirebaseAuth.getInstance();
         name = v.findViewById(R.id.addAlumniName);
         email = v.findViewById(R.id.addAlumniEmail);
@@ -49,10 +55,13 @@ public class AddAlumni extends Fragment {
         passYear = v.findViewById(R.id.addPassYearAlumni);
         register = v.findViewById(R.id.addAlumniRegister);
 
+        //on clicking the register button
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //following method call will create student acc in firebase authentication section
                 createAccount();
+                //following method call will add details of alumni in 'alumni' section of database
                 addAlumniInDatabase();
             }
         });
@@ -63,11 +72,14 @@ public class AddAlumni extends Fragment {
 
 
     public void createAccount() {
+        //getting email and password from user
         final String myEmail = email.getText().toString();
         final String myPassword = password.getText().toString();
+        //if fields are empty then displaying Toast msg to fill it
         if (myEmail.length() <= 0 || myPassword.length() <= 0)
             Toast.makeText(getActivity(), "please fill required fields", Toast.LENGTH_SHORT).show();
         else{
+            //creating acc using firebase method
         mAuth.createUserWithEmailAndPassword(myEmail, myPassword)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
@@ -95,6 +107,7 @@ public class AddAlumni extends Fragment {
 
     public void addAlumniInDatabase()
     {
+        //getting email and password from user
         final String myEmail = email.getText().toString().trim();
         final String myname = name.getText().toString().trim();
         final String pass = password.getText().toString().trim();
@@ -103,10 +116,13 @@ public class AddAlumni extends Fragment {
         final String currentPOS = currentPos.getText().toString().trim();
         final String passyear = passYear.getText().toString().trim();
 
+        //if fields are empty then displaying Toast msg to fill it
         if(myEmail.length()<=0 || myname.length()<=0 || pass.length()<=0 ||
                 id.length()<=0 || alBranch.length()<=0 || currentPOS.length()<=0 || passyear.length()<=0 ){
             Toast.makeText(getActivity(),"please fill required fields",Toast.LENGTH_SHORT).show();
     }
+
+        //putting the email,name, and all the inserted details in hashmap
         HashMap<String,String > AlumniMap = new HashMap<String, String>();
         AlumniMap.put("name",myname);
         AlumniMap.put("email",myEmail);
@@ -118,6 +134,7 @@ public class AddAlumni extends Fragment {
         int index = myEmail.indexOf('@');
         String dbIdOftpo = myEmail.substring(0,index);
 
+        //adding data in database as child of alumni node
         alumniRef.child(dbIdOftpo).setValue(AlumniMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

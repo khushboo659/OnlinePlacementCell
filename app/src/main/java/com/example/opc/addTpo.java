@@ -24,11 +24,17 @@ import java.util.HashMap;
 
 public class addTpo extends Fragment {
 
+
+    //declaring variables according to elements in ui of add tpo fragment
     private EditText name,email,joiningDate,password;
     private Button register;
+    //declring authentication variable
     private FirebaseAuth mAuth;
+    //getting instance of databse
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    //getting reference of root node of database
     private DatabaseReference rootref = db.getReference();
+    //getting reference of chid of rootref that is 'tpo'
     private DatabaseReference userref = rootref.child("tpo");
 
     @Override
@@ -37,16 +43,21 @@ public class addTpo extends Fragment {
         // Inflate the layout for this fragment.
         View v =  inflater.inflate(R.layout.fragment_add_tpo, container, false);
 
+        //finding the elemrnts in this view corrsponding thier assigned ids
         name = v.findViewById(R.id.addTpoName);
         email = v.findViewById(R.id.addtpoEmail);
         joiningDate = v.findViewById(R.id.addTpoJd);
         password = v.findViewById(R.id.addtpoPass);
         register = v.findViewById(R.id.addregisterTPO);
         mAuth = FirebaseAuth.getInstance();
+
+        //on clicking the register button
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //following method call will create tpo acc in firebase authentication section
                 createTpoAccount();
+                //following method call will add details of tpo in 'tpo' section of database
                 addTpoInDatabase();
             }
         });
@@ -55,11 +66,15 @@ public class addTpo extends Fragment {
     }
 
     public void createTpoAccount(){
+        //getting email and password from user
         final String myEmail = email.getText().toString();
         final String myPassword = password.getText().toString();
+
+        //if fields are empty then displaying Toast msg to fill it
         if(myEmail.length()<=0 || myPassword.length()<=0)
             Toast.makeText(getContext(),"please fill required fields",Toast.LENGTH_SHORT).show();
 
+        //creating acc using firebase method
         mAuth.createUserWithEmailAndPassword(myEmail, myPassword)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
@@ -81,21 +96,26 @@ public class addTpo extends Fragment {
     }
 
     public void addTpoInDatabase(){
+        //getting email and password from user
         final String myEmail = email.getText().toString().trim();
         final String joinDate = joiningDate.getText().toString().trim();
         final String myname = name.getText().toString().trim();
 
+        //getting username from email by trimming string before @
         int index = myEmail.indexOf('@');
         String dbIdOftpo = myEmail.substring(0,index);
 
+        //if fields are empty then displaying Toast msg to fill it
         if(myEmail.length()<=0 || joinDate.length()<=0 || myname.length()<=0)
             Toast.makeText(getActivity(),"please fill required fields",Toast.LENGTH_SHORT).show();
 
+        //putting the email,name, and all the inserted details in hashmap
         HashMap<String,String > tpoMap = new HashMap<String, String>();
         tpoMap.put("name",myname);
         tpoMap.put("email",myEmail);
         tpoMap.put("joining Date",joinDate);
 
+        //adding data in database as child of tpo node
         userref.child(dbIdOftpo).setValue(tpoMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
