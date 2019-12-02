@@ -34,6 +34,7 @@ import java.util.List;
 
 public class AccountDetailsTPO extends Fragment {
 
+    //declaring all the variables as per requirement and ui element
     String em,idfromem;
     TextView tname,tmail,tdate;
     FirebaseAuth auth;
@@ -53,12 +54,14 @@ public class AccountDetailsTPO extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
     Bundle savedInstanceState) {
         context = getActivity();
-
+        // inflating the layout of accountdetailstpo
         View v =  inflater.inflate(R.layout.activity_account_details_tpo, container, false);
 
-
+        //initializing the authentication
         auth= FirebaseAuth.getInstance();
+        //getting current user from FirebaseUser
         user=FirebaseAuth.getInstance().getCurrentUser();
+        //if user!= null then getting email and username
         if(user!=null){
             em=user.getEmail();
             int index=em.indexOf('@');
@@ -66,7 +69,7 @@ public class AccountDetailsTPO extends Fragment {
             Log.d("idfromemail",idfromem);
         }
 
-
+        //finding all ui elements accord to their assignes ids
         l=(ListView)v.findViewById(R.id.listview);
         ep=(Button)v.findViewById(R.id.editbtn);
         cp=(Button)v.findViewById(R.id.confirmbtn);
@@ -74,20 +77,26 @@ public class AccountDetailsTPO extends Fragment {
         cp.setVisibility(View.GONE);
         newpass.setVisibility(View.GONE);
         itemList = new ArrayList<>();
+        //getting database reference
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
 
+            //for existing data or when data get changed
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //clearing the list
                 itemList.clear();
+                //getting values of keys from datasnapshot
                 String lname=dataSnapshot.child("tpo").child(idfromem).child("name").getValue(String.class);
                 String lemail=dataSnapshot.child("tpo").child(idfromem).child("email").getValue(String.class);
                 String ldate=dataSnapshot.child("tpo").child(idfromem).child("joining Date").getValue(String.class);
 
+                //adding the values in list
                 itemList.add("TPO Name:"+lname);
                 itemList.add("TPO Mail:" +lemail);
                 itemList.add("Joining Date:" +ldate);
 
+                //setting the values in listview with the help of array adapter
                 adapter=new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,itemList);
                 l.setAdapter(adapter);
             }
@@ -98,12 +107,13 @@ public class AccountDetailsTPO extends Fragment {
             }
         });
 
+        //setting new password fiels and change password button visible whwn clicked on edit password
         ep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cp.setVisibility(View.VISIBLE);
                 newpass.setVisibility(View.VISIBLE);
-
+                //changing password
                 changePassword();
             }
         });
@@ -111,7 +121,7 @@ public class AccountDetailsTPO extends Fragment {
     return v;
     }
     void changePassword(){
-
+        //changing password with the help of updatePassword method of firebase
         cp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
