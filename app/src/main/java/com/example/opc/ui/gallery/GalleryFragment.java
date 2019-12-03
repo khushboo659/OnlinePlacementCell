@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GalleryFragment extends Fragment {
+    //declaring all the variables as per requirement and ui element
     String em,idfromem;
     TextView tname,tid,tmail,tbranch;
     FirebaseAuth auth;
@@ -59,16 +60,21 @@ public class GalleryFragment extends Fragment {
         context.setTitle("Account Details");
         galleryViewModel =
                 ViewModelProviders.of(this).get(GalleryViewModel.class);
+        // inflating the layout of fragment_gallery
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
 
+        //initializing the authentication
         auth= FirebaseAuth.getInstance();
+        //getting current user from FirebaseUser
         user=FirebaseAuth.getInstance().getCurrentUser();
+        //if user!= null then getting email and username
         if(user!=null){
             em=user.getEmail();
             int index=em.indexOf('@');
             idfromem=em.substring(0,index);
             Log.d("idfromemail",idfromem);
         }
+        //finding all ui elements accord to their assignes ids
         l=(ListView)root.findViewById(R.id.listview);
         ep=(Button)root.findViewById(R.id.editbtn);
         cp=(Button)root.findViewById(R.id.confirmbtn);
@@ -76,21 +82,28 @@ public class GalleryFragment extends Fragment {
         cp.setVisibility(View.GONE);
         newpass.setVisibility(View.GONE);
         itemList = new ArrayList<>();
+        //getting database reference
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            //for existing data or when data get changed
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //clearing the list
                 itemList.clear();
+                //getting values of keys from datasnapshot
                 String lname=dataSnapshot.child("student").child(idfromem).child("name").getValue(String.class);
                 String lemail=dataSnapshot.child("student").child(idfromem).child("email").getValue(String.class);
                 String lbranch=dataSnapshot.child("student").child(idfromem).child("branch").getValue(String.class);
                 String lid=dataSnapshot.child("student").child(idfromem).child("id").getValue(String.class);
 
+                //adding the values in list
                 itemList.add("Student Name:"+lname);
                 itemList.add("Institute Mail:" +lemail);
                 itemList.add("Branch:" +lbranch);
                 itemList.add("Institute I.D.:"+lid);
 
+                //setting the values in listview with the help of array adapter
                 adapter=new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,itemList);
                 l.setAdapter(adapter);
             }
@@ -101,6 +114,7 @@ public class GalleryFragment extends Fragment {
             }
         });
 
+        //setting new password fiels and change password button visible whwn clicked on edit password
         ep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,7 +128,7 @@ public class GalleryFragment extends Fragment {
         return root;
     }
     void changePassword(){
-
+        //changing password with the help of updatePassword method of firebase
         cp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

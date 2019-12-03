@@ -35,11 +35,16 @@ import java.util.Iterator;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-//    Activity context;
-private TextView viewNotif;
+
+    //textview for storing notifications
+    private TextView viewNotif;
+    //getting instance of datatabse
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    //getting reference of root of database
     private DatabaseReference rootref = db.getReference();
+    //gettong reference of notification section of database
     private  DatabaseReference notifRef = rootref.child("notification");
+    //getting instance of firebase authentication
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser currentUser;
 
@@ -47,14 +52,18 @@ private TextView viewNotif;
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
+        //inflating layout
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+        //finding tectview by its id.
         viewNotif = v.findViewById(R.id.dispNotif);
+        //getiing email and id from current user
         currentUser = mAuth.getCurrentUser();
         String myEmail = currentUser.getEmail();
         int index = myEmail.indexOf('@');
         String node = myEmail.substring(0,index);
         DatabaseReference mesRef = notifRef.child(node);
 
+        //action to be happened when new botification added
         mesRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -87,18 +96,19 @@ private TextView viewNotif;
 
     public void appendNotifications(DataSnapshot dataSnapshot)
     {
+        //declaring field of notification
         String notif,date,time;
+        //iterartor for each notification
         Iterator i = dataSnapshot.getChildren().iterator();
         viewNotif.append(Html.fromHtml("<html><body>"));
-        while(i.hasNext()){
-            date = (String)((DataSnapshot) i.next()).getValue();
-            notif = (String)((DataSnapshot) i.next()).getValue();
-            time = (String)((DataSnapshot) i.next()).getValue();
+        while(i.hasNext()){ //for each notif
+            date = (String)((DataSnapshot) i.next()).getValue(); //notif's date
+            notif = (String)((DataSnapshot) i.next()).getValue();   //notif's content
+            time = (String)((DataSnapshot) i.next()).getValue();    //notif's time
+            //appending it in textView (viewNotif)
             viewNotif.append(Html.fromHtml("</br><font><small>"+notif+"</small></font><br/><font color=blue><small><small>"+date+"</small></small></font><br/></font><font color=blue><small><small>"+time+"</small></small></font><br/><br/>"));
 
-            //viewNotif.append(notif+'\n'+date+'\n'+time+'\n'+'\n');
         }
-
         viewNotif.append(Html.fromHtml("</html></body>"));
 
     }

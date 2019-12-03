@@ -20,10 +20,20 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/*This activity is for admin page which is navigation drawer activity
+ * drawer contains nav header which displays username and email id
+ * drawer have 6 navigation items 1.view Notifications 2.view prev year papers 3.upcoming companies
+ * 4.discussion 5.account details 6.logout
+ * on clicking this items respective fragments will open.
+ * */
+
+
 public class student_main extends AppCompatActivity {
+    //variable for firebase uder
     private FirebaseUser user;
     private String em;
 
+    //textview elements in ui
     TextView tv,username_navheader;
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -31,6 +41,7 @@ public class student_main extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setting layout file as activity_student_main in layout dorectory
         setContentView(R.layout.activity_student_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,11 +53,13 @@ public class student_main extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        //finding drawrer and nav view
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        //finding header
         View header = navigationView.getHeaderView(0);
 
-
+        //finding elelments insode header
         tv = header.findViewById(R.id.navheaderemail);
         username_navheader = header.findViewById(R.id.nav_header_username);
 
@@ -66,7 +79,9 @@ public class student_main extends AppCompatActivity {
 
         /*ssssssssssssssssssssssssssssssssssssssssssssssssssss*/
 
+        //finding current user
         user= FirebaseAuth.getInstance().getCurrentUser();
+        //if current user exist getting his email and id
         if(user!=null){
             em=user.getEmail().toString();
             int index = em.indexOf('@');

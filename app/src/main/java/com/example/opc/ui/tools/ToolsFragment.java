@@ -34,21 +34,29 @@ import java.util.List;
 public class ToolsFragment extends Fragment {
     private ToolsViewModel toolsViewModel;
     Activity context;
+    //listView containing list of companies
     ListView mycomView;
+    //reference to comapny section of database
     DatabaseReference databaseReference;
+    //list conataining jafs stores objects of uploadJAF
     List<uploadJAF> jafs;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        //getting context of current activity
         context=getActivity();
+        //setting title
         context.setTitle("Upcoming Companies");
 
         toolsViewModel =
                 ViewModelProviders.of(this).get(ToolsViewModel.class);
+        //inflating the layout
         View root = inflater.inflate(R.layout.fragment_tools, container, false);
+        //finding the componenets by their ids
         mycomView=(ListView)root.findViewById(R.id.clist);
         jafs=new ArrayList<>();
 
+        //calling below method displays upcomiing comapny list
         viewAllCom();
 
         mycomView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -67,7 +75,9 @@ public class ToolsFragment extends Fragment {
     }
 
     private void viewAllCom(){
+        //reference to comapny section of database
         databaseReference= FirebaseDatabase.getInstance().getReference("Company");
+        //action to be performed when data added or for currently existing data
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
