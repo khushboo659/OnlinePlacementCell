@@ -17,6 +17,7 @@ import android.widget.ImageView;
 public class fragment_stats extends Fragment {
 
     Activity context;
+    //variable for imageview and button in ui element
     Button button;
     ImageView image;
 
@@ -25,15 +26,10 @@ public class fragment_stats extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        //return inflater.inflate(R.layout.fragment_fragment_stats, container, false);
-
-
-
         View rootView =inflater.inflate(R.layout.fragment_fragment_stats, container, false);
+        //finding imageview by its assigned id
         ImageView imageView=(ImageView) rootView.findViewById(R.id.imgstats);
-        // Inflate the layout for this fragment
-       // ImageView.setImageResource(AndroidImageAssete.getmeads.get(0));
+        //setting image of stats in imageview
         imageView.setImageResource(R.drawable.stats);
         return rootView;
     }
